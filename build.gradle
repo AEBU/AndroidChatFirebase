@@ -15,9 +15,25 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext{
+    minSdkVersion = 19
+    targetSdkVersion = 25
+    compileSdkVersion = 25
+    buildToolsVersion = '26.0.0'
+    supportLibraryVersion='25.3.1'
+
+    firebaseVersion= '10.2.6'
+
+    circleImageViewVersion='2.1.0'
+    butterknifeVersion='8.8.1'
+    eventBusVersion='3.0.0'
+    glideVersion='4.0.0'
 }
