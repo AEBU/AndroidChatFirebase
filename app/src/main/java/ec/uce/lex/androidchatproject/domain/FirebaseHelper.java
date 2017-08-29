@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject;
+package ec.uce.lex.androidchatproject.domain;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Este paquete es domain, porque se va a acceder desde a través de varias características
+ *
  * Clase que encapsula la lógica de nuestra aplicación, debemos tomar en cuenta que
  * usamos solo la parte de SingleTon para una instancia dentro de toda la aplicación
  * Created by Alexis on 28/08/2017.

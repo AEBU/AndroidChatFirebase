@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject;
+package ec.uce.lex.androidchatproject.login;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ec.uce.lex.androidchatproject.R;
 
 public class LoginActivity extends AppCompatActivity {
 
