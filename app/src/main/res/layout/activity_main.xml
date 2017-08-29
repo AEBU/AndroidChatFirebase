@@ -8,10 +8,75 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ec.uce.lex.androidchatproject.MainActivity">
+    tools:context="ec.uce.lex.androidchatproject.LoginActivity">
 
-    <TextView
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/wrapperPassword">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:hint="@string/login.message.email"
+            android:id="@+id/editTxtEmail" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/layoutButtons"
+        android:layout_centerInParent="true">
+
+        <Button
+            android:text="@string/login.message.signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSignin"
+            />
+        <Button
+            android:text="@string/login.message.signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_Signup"
+            />
+
+    </LinearLayout>
+
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/wrapperPassword"
+        android:layout_above="@+id/layoutButtons"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:hint="@string/login.message.password"
+            android:id="@+id/editTxtPassword"
+            android:layout_below="@+id/editTxtEmail"
+            android:layout_centerHorizontal="true"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/layoutButtons"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

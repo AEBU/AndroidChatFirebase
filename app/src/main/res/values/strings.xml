@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">AndroidChatProject</string>
+    <string name="app_name">Android Chat</string>
+
+    <string name="welcome">BIENVENIDOS</string>
+
+
+    <string name="login.message.signin">Iniciar Sesión</string>
+    <string name="login.message.signup">Registrate</string>
+    <string name="login.message.email">Correo electrónico</string>
+    <string name="login.message.password">Password</string>
+    <string name="log_out_item">Cerrar Sesión</string>
+    <string name="title_activity_login">Sign in</string>
+
+
+
 </resources>
