@@ -40,18 +40,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-    }
 
-    @OnClick({R.id.btnSignin, R.id.btn_Signup})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnSignin:
-                Log.e("Signin", inputEmail.getText().toString());
-                break;
-            case R.id.btn_Signup:
-                Log.e("Signup", inputPassword.getText().toString());
-                break;
-        }
+        //inicializo al presentador, con la vista como argumento
+        loginPresenter = new LoginPresenterImpl(this);
+        //lo que hace es revisar al inciio si a tiene un usuario autenticado, es decir el progress bar
+        loginPresenter.checkForAuthenticatedUser();
     }
 
     @Override
@@ -74,16 +67,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         progressBar.setVisibility(View.GONE);
     }
 
-    @OnClick(R.id.btn_Signup)
+
     @Override
+    @OnClick(R.id.btn_Signup)
     public void handleSignUp() {
         loginPresenter.registerNewUser(inputEmail.getText().toString(),
                 inputPassword.getText().toString());
     }
 
 
-    @OnClick(R.id.btnSignin)
     @Override
+    @OnClick(R.id.btnSignin)
     public void handleSignIn() {
         loginPresenter.validateLogin(inputEmail.getText().toString(),
                 inputPassword.getText().toString());
@@ -118,9 +112,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     * @parameter enabled para ver si esta habilitado o no
     * */
     private void setInputs(boolean enabled) {
-        btnSignIn.setEnabled(true);
-        btnSignUp.setEnabled(true);
-        inputEmail.setEnabled(true);
-        inputPassword.setEnabled(true);
+        btnSignIn.setEnabled(enabled);
+        btnSignUp.setEnabled(enabled);
+        inputEmail.setEnabled(enabled);
+        inputPassword.setEnabled(enabled);
     }
 }
