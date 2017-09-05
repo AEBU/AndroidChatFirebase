@@ -149,7 +149,7 @@ EN EL SIGN IN Y SIGNUP
 
     creamos los usuarios
         testuser1@lextime.com           lexuce2345
-
+        testuser2@lextime.com           lexuce2345
 USAMOS LOGINREPOSITORYIMPL
 EN el código vamos a hacer cosas en el repositorio como variables globalres
 nos interesa tener una REFERENCIA de datos que se utulizara para la autenticación
@@ -167,6 +167,48 @@ Inicilizamos en el contructor
 
     Noramos que la primera vez cuando yo no tengo una sesión MyusrRefrence, va a ser nulo
     porque no tengo un correo asociado, por lo que tenemos que hacer otra asignación
+
+
+Trabajamos en el inicio de sesión
+
+    datareference.auth con password con los parametros que recibimos
+        si está autenticado
+            actualizamos la referencia de usuarios,
+            myUserReferences es la referencia de mi usuario
+            y a esta referenica le vamos a decir que tenga un listener para un solo evento y hacemos un new valueEvent
+
+            Nos interesa en el momneto que haya datos (onDtaChange)  e instanciamos un nuevo usuario
+            Verificamos si al iniciar sesion fui a traer los datos y el resultado es nulo tengo que ir a agregarlo
+            escribitmos el email a traves del helper y este email
+                lo creamos con un nuevo usuario
+                y por ultimo a mysuer refernce le hago un setValueel usuario que he creado
+            ya que tengo el usuario en mi backend listo
+            Luego cambio deswde mi helper
+                helper.changeUserConnectionStatus(User.ONLINE) que este online
+
+
+     LUego Creamos el Modelo del usuario
+
+            Un email,
+            un boleano si esta online
+            un Map de string y booleanos para los contactos
+                alexis  onilne
+            online y offline staticos
+
+            todos los gets y sets
+            firebase se va a poder integrar on el modelo de datos
+
+
+   Refactorizamos algo en el firebase helper
+            en NotifyContactsOfConnectionChange(USER.OFFLINE, TRUE)
+            EL estado del contacto para verificarlo
+
+tenemos el mismo dataReference pero llamamos a create User y enviamos email password y tenemos
+un VlueResultHandler, en este caso estamos recibiendo el resultado del inicio de sesión y postearé si este
+fue exitoso
+además que estoy creando un usuairo pues mando a mi signIn y mis mail y password
+
+AHORA EN EL CHECKSESION
 
 
 
