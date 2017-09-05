@@ -1,5 +1,7 @@
 package ec.uce.lex.androidchatproject.login;
 
+import ec.uce.lex.androidchatproject.login.event.LoginEvent;
+
 /**
  * Esta presentador, está vincualdo a la vista para poder acceder a todos los métodos(VIsta)
  * entonces por lo mismo como la vista va a ser una actividad es posible que tengamos una
@@ -21,6 +23,6 @@ public interface LoginPresenter {
     void checkForAuthenticatedUser();
     void validateLogin(String email, String password);
     void registerNewUser(String email, String password);
-//    void onEventMainThread(LoginEvent event);
+    void onEventMainThread(LoginEvent event);
 
 }

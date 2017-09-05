@@ -43,8 +43,17 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         //inicializo al presentador, con la vista como argumento
         loginPresenter = new LoginPresenterImpl(this);
+        //hago una llamada a oncrate desde el presentador
+        loginPresenter.onCreate();
         //lo que hace es revisar al inciio si a tiene un usuario autenticado, es decir el progress bar
         loginPresenter.checkForAuthenticatedUser();
+    }
+
+    @Override
+    protected void onDestroy() {
+        //para evitar el memory lick
+        loginPresenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override

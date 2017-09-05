@@ -5,6 +5,9 @@ import android.util.Log;
 import com.google.firebase.database.DatabaseReference;
 
 import ec.uce.lex.androidchatproject.domain.FirebaseHelper;
+import ec.uce.lex.androidchatproject.lib.EventBus;
+import ec.uce.lex.androidchatproject.lib.GreenRobotEventBus;
+import ec.uce.lex.androidchatproject.login.event.LoginEvent;
 
 /**
  *  el repositorio es el que va a estar enterado que estamos trabajando esto con FIrebase
@@ -27,16 +30,31 @@ public class LoginRepositoryImpl implements LoginRepository {
 
     @Override
     public void signUp(String email, String password) {
-        Log.e(TAG,"SingUP");
+        postEvent(LoginEvent.onSignUpSuccess);
     }
 
     @Override
     public void signIn(String email, String password) {
-        Log.e(TAG,"SingIn");
+        postEvent(LoginEvent.onSignInSuccess);
     }
 
     @Override
     public void checkAlreadyAuthenticated() {
-        Log.e(TAG,"Check Session");
+        postEvent(LoginEvent.onFailedToRecoverSession);
     }
+    private void postEvent(int type) {
+        postEvent(type, null);
+    }
+
+    private void postEvent(int type, String errorMessage) {
+        LoginEvent loginEvent = new LoginEvent();
+        loginEvent.setEventType(type);
+        if (errorMessage != null) {
+            loginEvent.setErrorMessage(errorMessage);
+        }
+
+        EventBus eventBus = GreenRobotEventBus.getInstance();
+        eventBus.post(loginEvent);
+    }
+
 }

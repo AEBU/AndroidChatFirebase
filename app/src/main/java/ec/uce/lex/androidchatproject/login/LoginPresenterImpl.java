@@ -1,5 +1,12 @@
 package ec.uce.lex.androidchatproject.login;
 
+import android.util.Log;
+
+import org.greenrobot.eventbus.Subscribe;
+import ec.uce.lex.androidchatproject.lib.EventBus;
+import ec.uce.lex.androidchatproject.lib.GreenRobotEventBus;
+import ec.uce.lex.androidchatproject.login.event.LoginEvent;
+
 /**
  * Login, esta clase tiene una vista LoginVIew
  * y va a tener un interactuador LoginInteractor
@@ -9,7 +16,7 @@ package ec.uce.lex.androidchatproject.login;
  */
 
 public class LoginPresenterImpl implements LoginPresenter {
-
+    private EventBus eventBus;
     private LoginView loginView;
     private LoginInteractor loginInteractor;
 
@@ -17,11 +24,16 @@ public class LoginPresenterImpl implements LoginPresenter {
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
         this.loginInteractor=new LoginInteractorImpl();
+        this.eventBus = GreenRobotEventBus.getInstance();
     }
 
+    /*
+    * El método que registra el evento
+    *
+    * */
     @Override
     public void onCreate() {
-
+        eventBus.register(this);
     }
 
     /*
@@ -30,6 +42,8 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void onDestroy() {
         loginView=null;
+        eventBus.unregister(this);
+
     }
 
     /*
@@ -76,6 +90,37 @@ public class LoginPresenterImpl implements LoginPresenter {
             loginView.showProgress();
         }
         loginInteractor.doSignUp(email,password);
+    }
+
+    @Override
+    @Subscribe
+    public void onEventMainThread(LoginEvent event) {
+        switch (event.getEventType()) {
+            case LoginEvent.onSignInError:
+                onSignInError(event.getErrorMessage());
+                break;
+            case LoginEvent.onSignInSuccess:
+                onSignInSuccess();
+                break;
+            case LoginEvent.onSignUpError:
+                onSignUpError(event.getErrorMessage());
+                break;
+            case LoginEvent.onSignUpSuccess:
+                onSignUpSuccess();
+                break;
+            case LoginEvent.onFailedToRecoverSession:
+                onFailedToRecoverSession();
+                break;
+        }
+    }
+
+
+    private void onFailedToRecoverSession() {
+        if (loginView !=null){
+            loginView.hideProgress();
+            loginView.enableInputs();
+        }
+        Log.e("LoginPresenterImpl","onFailedToRecoverSession");
     }
 
     /*
