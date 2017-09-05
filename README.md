@@ -210,5 +210,16 @@ además que estoy creando un usuairo pues mando a mi signIn y mis mail y passwor
 
 AHORA EN EL CHECKSESION
 
+    Tenemos qeu ver si existe una sesión, y si en caso existe redirigimos al usuario para que mantenga esa misma sesion
+    entonces revisamos si el usaurios esta autenticado si no entonces le mando que no pudimos
+    postear un evento
+    la difrencia es que no usamos email y paswordla parte de onAutenticated (en SIgnin)
+        si no que uso la referencia y con esta voy a ir a traer al usuario de la base de datos
+        y si esta creada listo, eso es todo cambio a helper en online y nada mas
+        si no entonces la crea (currentUser==null) creo email con getAuthUserEmail
+
+
+
+
 
 
