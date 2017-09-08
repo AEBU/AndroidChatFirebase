@@ -369,6 +369,85 @@ Ahora trabajamos por la actividad,
                     setSupportActionBar(toolbar(
 
 
+Video 5
+    ContactList ContactListAdapter
+            Cramos un adapatador para el listado (RecyclerView)
+
+            en adapters
+                interface onItemClickListener
+                                    Tenemos dos eventos,
+                                                        cuando hay un click
+                                                        Cuando hay un click largo
+                Class ContactListAdapter herede de RecyclerViewAdapter con un ViewHolder
+                    Creado en esta mismo apartado con todos su metodos
+                        Guardar los datso de alguna forma
+                            Listados de usuarios
+                                ListUser contactlist
+                            Formap para cargar las imagenes
+                                ImageLoadin imageLoading
+                            OnItemClikcListener
+                                onItemClickListener para manejar los eventos de click largo o corto
+
+                        Creamos un constructor con los datos que hemos definido
+
+                        Implementamos los metodos en el view holder,
+                            queremos un view holder a partir de la vista
+
+                                View view LayoutInflater.....
+                                return La clase ViewHolder(con esta vista)
+                        onBindViewHolder
+                            Requiere definir los elementos dentro del holder,gracias a butterknife traemos los atributos que necesitamos
+
+                        En el viewHolder Pngo la vista y los atributos definidos en el layout
+                               defino una Vista view
+                               y en el constructor mando a definir la vista que he obtenido con la vista que tengo como privada
+
+                           Queremos los mteodos que me permiten manejar el click
+                                Como vemos aobre la vista (view)  adentro del click voy a llamar al metodo que necesito
+                                y como mi interfaz de click lo que hace es recibir un usuario, entonces recibo el usuario como inal dentro del clickListener
+                                y tambien nencesito un listener interfaz del onitemClickListener
+
+                                private setClickListener(final User user,final OnItemClickListner listenter){
+                                    view.setOnClickListener(new View.onClickListener{
+                                    public onClikc(view v){
+                                        listner.onItemClick(user)(
+                                    }
+                                    }
+                                }
+
+                                Lo mismo para el onLongClickListener
+                Hasta aqui he construido el metodo
+
+            OnBindView Holder
+                Es el que me hva a permitir a mi crear y declarar un usuario de acuerdo a la posicion
+                    defino un la instancia del click que he decidido, con
+                    holder.setClickLIsterne(usuario obtenido, onItemClikc)
+                    pero ademas este es lugar donde coloco los valores necesarios para que los campos tengan algo
+
+                            holder.txtUser.setTest
+
+                para ver si esta online
+                    boolean online user.isOnline()
+                    String status = online? "online":"offline"
+                    int color= online ? Color.GREEN:Color.RED
+                           holder.txtUser.setTest
+                           holder.txtUser.setTest
+                           holder.txtUser.setTest
+
+                    SI YO QUISIERA LEEER ONLINE Y OFLINE A PARTIR DEL XML, necesito un contexto
+                    pero si tuviera mas cosas realcionadas con strings es bueno usar y recibir el contexto
+
+           Para las imagenes lo que hacemos es
+                        imageLoader. load(lugar donde se cargaImageView donde se carga, URL)
+                            imageLoader.load(holder.imgAvatar,"URL")
+                            e implementamos el metodo de carga
+
+
+
+
+
+
+
 
 
 

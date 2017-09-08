@@ -15,11 +15,13 @@ import ec.uce.lex.androidchatproject.entities.User;
 
 public class ContactListActivity extends AppCompatActivity implements ContactListView {
 
+
+    private ContactListPresenter presenter;
+
     @BindView(R.id.recyclerViewContacts)
     RecyclerView recyclerViewContacts;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    private ContactListPresenter presenter;
 
 
     @Override
