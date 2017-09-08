@@ -17,4 +17,9 @@
     <string name="login.notice.message.signup">Usuario agregado exitosamente</string>
     <string name="login.notice.message.useradded">Usuario registrado exitosamente</string>
 
+
+    <string name="contactlist.menu.action.signoff">Cerrar sesión</string>
+    <string name="contactlist.title">Contactos</string>
+
+
 </resources>

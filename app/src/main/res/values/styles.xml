@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--Aca vamos a colocar nuestro tema para que no nos salga duplicado el layout y asi poder usarlo
+    teniendo que modificar en el manifest tambien-->
+    <style name="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+     <style name="AppTheme.PopupOverlay" parent="AlertDialog.AppCompat.Light"></style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 </resources>

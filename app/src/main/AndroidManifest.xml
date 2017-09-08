@@ -17,7 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".contactlist.ContactListActivity"></activity>
+        <activity android:name=".contactlist.ContactListActivity"
+        android:label="@string/contactlist.title"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

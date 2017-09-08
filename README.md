@@ -220,6 +220,138 @@ AHORA EN EL CHECKSESION
 
 
 
+Para el layout de los contactList
+
+    Imagen
+    COrreo
+    Estado de la persona
+
+ 2 archivos de layout Coordinator Layout
+    toolbar
+
+
+
+    Procedimiento
+        Strings
+            los valores
+        Contenido de un contacto*(Relative Layout)
+            agregamos nuestro circleImageView 48dp, 48dp (dimensiones)
+                le damos un margen solo hacia la derecha marginRight
+                cosas que permiten personalizar, con app
+                le damos un color
+                    civ border widht #1dp
+                    border color #ffff
+            Agregamos textView para el email
+                Large text
+
+            Agregamos textView para el estado
+                medium Text
+
+
+
+Video de contactList
+Layout*(Video 2)
+
+    Activity Contact list
+        Dentro de un coordinator layout
+            creamos la actividad con el contexto que necesitamos
+        Creamos estilos con un valor asociado
+            styles.xml
+                popUpOVerlay
+                    parent"ThemeOverlay.AppCompat.Light
+
+    Entones tengo
+        Corrdinator layout
+            Admnistrar todo lo que vaya dentro
+        AppBarLayout
+            Administrar el toolbar
+        Recycler View
+            Donde coloco todo el contenido
+
+        FloatingButton
+            tinte para que se note
+
+Nota si tengo duplicada el tema, voy a styles y creo el mio
+    AppTheme.NoActionBar
+        me permite tener un item de window action Bar que no teien la bandera verdadera
+        y otro que va a tener true , en window no Title
+
+
+    Dentro de la actividad en el manifest podemos crear
+    <activity andoid :name Nombre Actividad>
+    android:label @String
+    android theme ,el estuilo creado
+    Toolbar no tiene nada pero podemos ponerle nosotros mismo nuestro lab
+
+    en Estilos podemos crear AppTheme.AppBarOverlay parent ActionBar
+
+
+Arquitectura MVP
+    Video3
+        Creamos nuestros contratos o interfaces para poder tener la parte de arquitectura
+
+        ContacListView interface
+            Que esta reaccione cuando hay un contacto agregado y reciba este usuario
+            CUando el contacto es cambiado, cambio su estado
+            Cuando borramos el contacto
+
+        Para el presentador una interfaz
+
+        Contact List Presenter interface
+            Eventos que reaccionen en el presentador
+                    onCreate
+                    onDestroy
+                para hacer cierta configuracion, pero como va a estar trabajando con firebase y va a tener una conexion en tiempo real
+                no quiero tener esta conexion abierta siempre
+                tenemos un evetno de
+                    onpause
+                    onResume
+                Accion de cerrar sesion, y borrar un contacto con el mail, metodo para manejar los eventos
+                 recibidos
+                    sigOff
+                    removeContact(mail)
+                    onEvnetMainThread (ContactListEvent)
+                 Quiero el mail del usuario que esta logeado para que aparezca en el toolbar
+                    String getCurrentuserEmail()
+
+         Interfaz para el interactuador ContactListInteractor
+                void subscribe*()
+                void unsubscribe()
+                void destroyListener()
+                void removeContact(String email)
+
+            Ademas de esto necesito acciones para la sesion y aqui es donde se comenta que va en cada clase
+                lo separamos pmetodos para manejar la sesion
+                    Interfaz    ContactListSessionInteractor
+                                    void signOff()
+                                    String getCurrentUserEmail()
+                                    void changeConnectionStatus( boolean online)
+                    Podria haber separado este remove contact a un tercer interactuador
+                        y tengo que ver hasta que punto puedo cambiar esta parte
+
+            Por ultimo creamos un
+                ContactListRepository interfaz
+                    la que va a responder ante los eventos puestos anteriormente
+                        void signOff(
+                        String getCurrentUser *(email
+                        void removeContact*()
+                        void subscribe
+                        void unsibcribe
+                        void destroyListener
+                        void changeConnectionStatus
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
