@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject.contactlist;
+package ec.uce.lex.androidchatproject.contactlist.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

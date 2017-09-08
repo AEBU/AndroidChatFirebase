@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ec.uce.lex.androidchatproject.R;
-import ec.uce.lex.androidchatproject.contactlist.ContactListActivity;
+import ec.uce.lex.androidchatproject.contactlist.ui.ContactListActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
