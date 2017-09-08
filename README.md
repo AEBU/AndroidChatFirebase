@@ -341,6 +341,34 @@ Arquitectura MVP
                         void changeConnectionStatus
 
 
+ContactListView MVP Video 4
+Ahora trabajamos por la actividad,
+                    Esta implmenta el contrto de la vista
+                    oncontactAdd..... etc
+                Tenemos unos atributos basicos como
+                    private ContatcListPresenter. presenter
+
+                Usamos butterknife con el toolbar recycler view y el floating action Button
+
+                Para el FloatingButton
+                    @OnClick(R.id.Button)
+                    public void addContact(){
+                    //esto es lo que hace el button
+                    }
+
+                Me interesa onDestroy
+                    presenter.onDestroy
+                Em interesa OnPause
+                    presneter.onPause
+                me Interesa OnResume
+                    presenter.onrexsume
+
+                y en onCreate pongo
+                    presenter.onCreate
+                    toolbar.setTitle(preseneter.getCurrentUserEmail\
+                    setSupportActionBar(toolbar(
+
+
 
 
 
