@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject.contactlist;
+package ec.uce.lex.androidchatproject.lib;
 
 import android.widget.ImageView;
 

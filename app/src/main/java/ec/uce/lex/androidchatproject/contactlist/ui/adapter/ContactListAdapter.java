@@ -13,7 +13,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ec.uce.lex.androidchatproject.R;
-import ec.uce.lex.androidchatproject.contactlist.ImageLoader;
+import ec.uce.lex.androidchatproject.domain.AvatarHelper;
+import ec.uce.lex.androidchatproject.lib.ImageLoader;
 import ec.uce.lex.androidchatproject.entities.User;
 
 /**
@@ -54,7 +55,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.txtStatus.setText(status);
         holder.txtStatus.setTextColor(color);
 
-        imageLoader.load(holder.imgAvatar, "URL");
+        imageLoader.load(holder.imgAvatar, AvatarHelper.getAvatarUrl(email));
     }
 
     @Override

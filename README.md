@@ -445,6 +445,229 @@ Video 5
 
 
 
+CONTACT LIST
+
+
+        Video2 Layout
+
+             Listado de elementos
+                Estado del layout
+                    Agregamos los strings con el patrón de Actividad.accion. menú
+             Floating ActionButton
+
+
+     Creamos un content contact
+            que es lo que tendremos dentro de contactList
+                poniendo las dimensiones de circle Image View
+
+
+        Creamos un activity contact list, asociado a la actividad
+          Coordinator Layout, administra todo lo que lleva dentro
+
+            AppBarLayout, administra el toolbar
+            Toolbar, colores y menu
+            RecyclerView, coloco todo el contenido
+            FloatinActionBottom, tiene tinte blanco y su respectivo icono
+
+        Craemos nuestro tema
+            editando el estilo, NoActionBar
+                me permite un item de windows action bar que no tiene la bandera en FALSE
+                window no Title TRUE
+                Y AÑAdimos dentro de la actividad label y el theme, que nosotros le estamos colocando
+
+
+Contact List Estructura MVP Video4
+
+        Dentro de RecylcerView
+            Quitamos Scrollbars dentro del RecyclerView porque no tenemos todav
+            ia datos
+
+
+
+        ESTRUCTURA MVP
+
+            Contratos o Interfaces para que podamos tener toda la parte de arquitectura funcionando
+                ContactListView
+                    Essperamos que la vista reaccione cuando
+                        hay un contacto agregado, addContact
+                        cuando cmabio su estatus, ContactChanged
+                        cuando borramos el contacto, ContactRemoved
+
+                Presenter,va a tener varios eventos al reaccionar
+                    ContactListPresenter
+                        onCreate,Configuracion
+                        onDestroy,Configuracion
+                        OnPause     Pero ademas como trabajo con firebase, y va a tenr un conexion en tiempo real, no va a quedar esa conexion abierta siempre
+                        onResume
+
+                        signOff             Accion de cerrar sesion
+                        removeContacts      Accion de borrar contacto, mediante el email que estamos creando
+                        onEvnetMainThread   Metodo para manejar los eventos Recibidos, Mediante un CONTACTLISTEVENT
+
+                        String getCurrentUserEmail  para tener el mail y ponerlo dentor del toolbar
+
+
+
+                    ContactListInteractor, este interactuador va a tenre dos acciones
+                        Todos estan puestos para la lista de contactos
+                            subscribe
+                            unsubscribe
+                            destroylistener
+                            removeContacts
+                     Acciones para la sesion
+                     ContactListSessionInteractor
+                        signOff
+                        getCurrentUserEmail
+                        changeConnectionStatus, indicando si es ONline o no
+
+                    Le dejo en dos interactuadores, no mas
+
+
+                Para Terminar
+
+                ContactListRepository
+                    signOff
+                    getCurrentEmail
+                    removeContact
+                    Metodos para suscribirse
+                    destroyListener
+                    subscribeToContactListEvents
+                    unsubscribeToContactListEvents
+                    changeConnectionStatus
+
+                Esto es lo mínimo que debería implementar las clases para que funcione mi aplicación
+
+
+Contact List MVP Activity
+        Continuamos y trabajamos en ContacListActivity para implementar el contrato de la vista
+        implements ContactListView
+
+        Creamos un ContactListPresenter presenter
+        Como requisito mínimo
+
+    Asociados al ciclo de vida de la actividad, para luego implementarlo
+                    OnDestroy.
+                        presnter.onDestroy()
+
+                    onResume,
+                        presnter.onResume()
+                    onPause,
+                        presnter.onPause()
+
+            En onCrete
+                    presenter.onCreate
+
+            Nota. no esta todavía para implmementar.
+
+        Voy a implmenatar el presentador, de tal foramq ue la vista ya tenga con quien intercatuar,
+
+
+    Contact List Adapter
+
+       Implemantamos un Adaptador para el listado, debemos ver cuando hay un click en el evento, o un click largo
+        Este herada de RecyclerViewAdapter;ContactListAdapter.ViewHolder:
+            Implemenatmos los metodos
+
+        Creamo una lista contacList, lista de contactos
+        Imagen          la imagen que por el momento es una interfaz
+        onItemListener  para manejar los clicks
+
+        Creo mi constructor, con todo lo que necesito
+
+        Necesito un viewHolder a partir de la vista
+            View view=LayoutInflater.from(pareng.getContext()).inflate(R.layout.contectcontact), parent,false=
+            return new ViewHolder(view).//retornamos el viewHolder de la vista de esta misma clase a partir de esa vista, notemos que viewHolder esta definida en esta vista
+        OnBindViewHolder. realizo alguna accion sobre el metodo getItemCount(contacList.size)
+        Definir los elementos dentro del holder, y estas inyecciones (Butterknife lo pongo dentro del viewHolder
+        y como vamos a definir el click entonces hacemos una variable privada View, view y en el constructor lo hago
+
+        Metodo qeu me permite manejar el click
+            private
+                view.seOnClickListener (new View.Oncl...
+                    void Onclick
+                        mi interfaz es con un usuario, por loq recibe el usuario, y la interfaz del usuario
+
+                        listener.onItemClik,
+                        view.setOnLongClickListener
+
+                OnBindView Holder
+                me permite asignar los valores, declaro un usuario, a partir de contactLIst.get(positrio)
+                holder.setClickListner(user,onItemClickLisnter
+
+                este es elugar donde veo que los valores tengan algo, cmapos del viewholder tengan algo
+                holder.txtUser.setText(...
+
+                String status= online?"online": "offline";
+
+
+                Para imageLoader, necesitamos, el imageView sobre el que caey la url, y que sea general no solo un circleImageView, si no ImageView
+
+
+        ViewHolder hereda de RecyclerView.ViewHolder
+        con su respectivo dato
+
+
+Video 6 Contact List Image Loading y Prueba de Adapter
+
+        Creamos el IMageLoadinDentro de libs
+
+        Creamos una clase GlideImage lOader que implmenta ImageLoader
+
+        Definimos n RequestManager de parte de Glide
+
+        EN el constuctor, debería recibir directamoent pero en vez de eso vamos a recibir un contexto.
+        algo interesante de esto , es que este contexto podría ser un Fragment, Activity, COntext y se pega bien al ciclo de vida de los elementos
+
+        y el método load dentor de Glide , lo que va ah acer es
+
+        requestmanager.load(url).into(imgAvatar)
+
+
+        Volvemos a la actividad y veo que ya tengo un adapatador, y uso metodos para buscarlos
+        setupToolbar()
+            metodos el toolbar
+        setupAdapter
+            ImageLoader loader' new GlideImageLoader(this.getAplicationContext)(le mande un conetxto
+            metdoos del adapatador , variable ContactListAdapter. lo inicializamos aqui, un listado vacioi de usuarios, un imageLoader,lonItemClickListerne
+            para esto poner this, tengo que implmentar el onITemClikcListener dentor de esta actividad
+        setupRecyclerView
+            Definimos los datos el recyclerview
+              private void setupRecyclerView() {
+                    recyclerViewContacts.setLayoutManager(new LinearLayoutManager(this));
+                    recyclerViewContacts.setAdapter(adapter);
+                }
+
+
+        Para probarlo comento todo el presenter porque no tengo nada aun
+        Para ver un listado con algo de informacion , hacemos informacion Dummy
+
+        User user....
+        adpater=new ContactListAdapter(ArrayasList( new User[]{user}), ..loader, this)
+
+
+    Ahora vemso que no tenemos una foto, pero necesito cargarlo de algún lugar,
+        Helper, para una clase nueva, llamandola AvatarHelper, método estatico qeu perimte devolverun String , a partir del emial
+        en base a este email, vamos a ver cual es el url Correspondiente,
+
+        nos apoyamos en gravatar, definimos un md5 método que calcula este a partir de un string
+        y me sirve para obtener el resultado
+        y devulvo es baseUrl, concatenado con el md5 del email y el paramtero que sea de tamañan 72, ?s=72
+
+
+            public static String getAvatarUrl(String username) {
+                    return GRAVATAR_URL + md5(username) + "?s=72";
+            }
+
+
+        Con esto podemos poner dentor del adapatador (onBindViewHolder) imageLoader.load(holder.imgAvater, AvatarHelper.getAvatarUrl(email).
+
+
+            imageLoader.load(holder.imgAvatar, AvatarHelper.getAvatarUrl(email));
+
+
+
+
+
 
 
 
