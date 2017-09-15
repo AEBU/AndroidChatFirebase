@@ -668,6 +668,118 @@ Video 6 Contact List Image Loading y Prueba de Adapter
 
 
 
+ContactList Presenter y Event
+
+        Después de haber hecho las pruebas en la vista, nos corresponde hacer las implmentaciones de todas las clases,
+
+        Entonces implementamos contactlistPresenter, desde la clase ContactListPresnerterImpl
+
+        Con estos métodos listo puedo trabajar
+
+        necestio un EventBus, para poder detectar los evetnos
+        necesito un vista, para comunicarme con la actividad
+        necesito una instancia de cada Interactuador.
+            ContactListInteractor listInteractor
+            ContacListSessionInteractor sessionInteractor
+
+        Dendtro del constructor recibo unicamente la vista, eventBus. el getInstance y a las otras dos
+        variables les iniciazo como su ContactListInteractorImpl,
+
+        DEBEMOS DARNOS CUENTA QUE USAMOS ESTE DATOS PARA INSTANCIARLO LO CREAMOS EN UNA INSTANCIA DE SU IMPLMENTACION ASI PODEMOS HACER USO DE CADA IMPLEMENTACION QUE NCESITAMOS
+
+
+
+
+    Creamos en el presentador ir constryyendo uno a uno cada uno de estos métodos
+
+        onPause.
+            que la sesion se ponga en pausa, y se desinscribirnos
+                sessionInteractr.changeConnectionStatus(user.Offline)
+                listInteractor.unsubscribe()
+        onResume
+            que al resumir se ponga a subscribir y cambiar el estatus a online
+                sessionInteractr.changeConnectionStatus(user.Offline)
+                listInteractor.unsubscribe()
+        onCreate
+            que al crear el presentador que se registre dentor de EventBus,
+                eventBus.register(this)
+
+        onDestroy
+            Que se haga opuesto. nos desinscribimos del eventBus, la vista la volvemos null, y listInteractor destruimos el listener, para evitar el memory lick
+                eventBus.unregister(this)
+                listInteractor.destroyListener()
+                view= null
+
+        sigOf
+            nos vamos a ofline, nos desubscribirnos, destruir el listener y por ultimo, llamar al signoff de la session
+
+        getCurrentUserEmail
+            hacemos un getCUrrentUserEmail
+
+            return sessionInteractor.getCurrentUserEmail
+
+        removeContact
+            algo similar pero con contactListInteractor,
+                listInteractor.removeContact(email)
+
+        onEventMainThread
+            los evetnos que he definido en ContactEvent
+            Traemos el usuario a partir del evento, que este me lo envia el repositorio
+            y hago el evento getType, hago un swith a partir del evento del evento GetType, con mis tres posibles escenarios
+            y en cada uno de ellos llamo a mi metodo definido
+
+            @Override
+                @Subscribe
+                public void onEventMainThread(ContactListEvent event) {
+                    User user = event.getUser();
+                    switch (event.getEventType()){
+                        case ContactListEvent.onContactAdded:
+                            onContactAdded(user);
+                            break;
+                        case ContactListEvent.onContactChanged:
+                            onContactChanged(user);
+                            break;
+                        case ContactListEvent.onContactRemoved:
+                            onContactRemoved(user);
+                            break;
+                    }
+                }
+
+
+
+
+
+
+        private onContactAdd (User user)
+            si la vista no es nula etnonces usarmos el metodo de la vista
+                view.onContactAdd(user)
+
+        private onContactChanged (User user)
+            si la vista no es nula etnonces usarmos el metodo de la vista
+                view.onContactChanged(user)
+
+        private onContactRemoved (User user)
+            si la vista no es nula etnonces usarmos el metodo de la vista
+                view.onContactRemoved(user)
+
+
+
+    Denttro de ContacListEvent
+        Para identificar estos tres eventos para identirifacar que tipo de evento tengo
+            Cuando añado un contacto onContactAdd
+            Cuando cambio un contacto onChangeContact
+            cuando elimino un contacto onContactRemoved
+        en la myoria de casos necesito un Usuario
+        un Entero para saber que tipo de evento es,
+        con sus respectivos getter y setters
+
+
+
+         Seguimos a ContacListPresenterImpl
+    CON ESTO TENGO LISTO MI PRESENTADOR, EL PRESENTADOR ESTA INSTANCIANDO AL INTERACTURADOR, PERO EL INTERACTURADOR AUN NO TIENE NADA
+
+Debemos tener en cuenta que usaremos EventBus de mi paquete de librerias. y luego la instancio a la de greenRobot, en PresenterIMpl, con esto puedo poner mis propios metodos para usarlos dentor de greenRobot
+
 
 
 
