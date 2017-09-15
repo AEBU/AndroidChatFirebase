@@ -782,6 +782,42 @@ Debemos tener en cuenta que usaremos EventBus de mi paquete de librerias. y lueg
 
 
 
+Implementación del interactuador Video8
+
+    En ContactListSessionInteractorImpl
+        tengo un ContactlistRepository y sobre este vamos a actuar
+
+        En este repositorio necesitamos que este inicializado
+        por el momento no lo recibimios en el constructor nuestro constructor, esto no es la mejor de las ideas cuando se testea, por lo que se usa IndependenceInjection
+
+
+
+        signOff
+            repostitoySignoff
+        getCurrentEmail
+            repository.getCurrentUserEmail
+        changeConnectionStatus
+            repository.changeConnectionStatus
+
+
+    Dentor de COntactListInteractorImpl
+        creo mi ContactListInteractor
+        con mi ContacTLIstRepository
+        lo creo en el contructor pcomo el anterior
+
+         llamo a los metodos
+            subscribe
+                repositroy.subscribeToContactList
+
+            unsubscribe
+                repository.unsbsrctitToContactLIstEvnet
+            destroyListener
+                repositoy.destroyLIstener
+            removeContacts
+                repository.removeContact
+
+
+
 
 
 
