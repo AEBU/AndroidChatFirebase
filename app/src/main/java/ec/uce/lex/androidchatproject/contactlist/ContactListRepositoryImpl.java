@@ -78,12 +78,14 @@ public class ContactListRepositoryImpl implements ContactListRepository {
 
     @Override
     public void unsubscribeToContactListEvents() {
-
+        if (contactEventListener != null){
+            helper.getMyContactsReference().removeEventListener(contactEventListener);
+        }
     }
 
     @Override
     public void changeConnectionStatus(boolean online) {
-
+        helper.changeUserConnectionStatus(online);
     }
     private void handleContact(DataSnapshot dataSnapshot, int type) {
         String email= dataSnapshot.getKey();

@@ -914,7 +914,102 @@ Video 9 Repository
 
 
 
+Pruebas y Repositorio, Video 10
 
+    Con esto podemos regresar a la actividad, ContactListActivity y descomentar todo o que estaba comentado del presentador
+        en Oncreate
+            Desocmentamos Presenters. en instanciamos el presentador
+                presenter=new ContactListPResenterImpl(this)
+        setupAdapter
+            cambiamos a un arraylistVacio
+
+
+        //vamos a usar el adaptador, el presentador llama a metodos de la vista, onContactAdd,...
+        onContactAdd(User user)
+            adaptador.add(user)
+        onContactChanged
+            adaptador.update(user)
+        onContactRemoved
+            adaptador.remove(user)
+
+        Creamos los metodos dentro del ContactLIstAdapter, (adapater)
+
+        en add(user user)
+            revisaremos si ya esta agregado y sino agregarlo
+            si la lista contiene el usuario, y si no lo contiene lo agregamos, y luego lo actualizamos de una
+         public void add(User user) {
+        if (!contactList.contains(user)){
+            contactList.add(user);
+            notifyDataSetChanged();
+        }
+    }
+        en update(user user)
+            revisaremos si esta, actualizarlo
+            para esto la lista necesita un set, que necestia la posicion, por lo que declaramos la posicion con indexOf,  notemos que aca se usa el equals, por eso lo implementamos
+             public void update(User user) {
+                    if (contactList.contains(user)){
+                        int index = contactList.indexOf(user);
+                        contactList.set(index,user);
+                        notifyDataSetChanged();
+
+                    }
+            }
+        en Remove(user User
+            solo lo borraremos, pero lo eeliminamos directamoente, con remove
+        public void remove(User user) {
+        if (contactList.contains(user)){
+            contactList.remove(user);
+            notifyDataSetChanged();
+            }
+        }
+
+    Para hacer esto, nos apoyaremos en el bjteto de la actividad que yo ya definí (USER)
+        y agregamso un método equals, lo cual busca es comparar en el caso del usuario, mi parámetro de comparacion va a ser el Email y con este voy a asegurarme que un usuario sea igual a otro
+            @Override
+            public boolean equals(Object obj) {
+                boolean equal = false;
+                if (obj instanceof User){
+                    User user= (User)obj;
+                    equal = this.email.equals(user.getEmail());
+                }
+
+                return equal;
+            }
+
+
+
+    En ContactListActivity
+            Para asegurarnis que al hacer click esta haciendo algo le mandamos un toast
+
+                en onItemClick
+                    Mandamos un Toast
+                en onItemLongClick//para eliminar a un contacto
+                    presenter.removeContact(user.getEmail)
+
+            Ahora vamos a agregar el menu, y editaremos esta acatividad un poco
+                sobreccargamos OnCreateOptionsMenu y onOptionsItemSelected
+                En onCreateOptionsMenu(Menu menu)
+                    getMenuInflater().inflate(R.menu.menu_contact_list,menu)
+                        Creamos en la parte de recursos, una nueva carpeta, que se llame menu, y sobre esta una que se llame menu_contact_list,
+                            Unicamente tengo un item que usa el string de cerrar sesion
+                            <item android:id="@id/actionlogout" android:title="@string/...
+                            android:orderInCategory="100"/>
+
+                En optiosItemSelected(MenuItem item)
+                    cuando este menu es llamado entocnes hago algo.
+                            la forma para hacer esto(logout) vamos a limpiar las banderas, e inicializar la actividad del login, de esta manera cuando haga back no voy a tner problema en regresar a lo que estaba viendo actualmente, y previo a esto hago un presenter.signOff y en la actividad tengo que corregir que cuando vuelva al login no tenga historia de tal forma que cuando le de back no regrese a ver esta
+                            if (item.getItemId() == R.id.action_logout){
+                                        presenter.signOff();
+                                        Intent intent = new Intent(this, LoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                                | Intent.FLAG_ACTIVITY_NEW_TASK
+                                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    }
+
+                            <activity android:name=".intro.IntroActivity" android:noHistory="true">
+
+    Debemos tener en cuenta que usamos en console.firebase, el nodo contacts y ponermos nuestro email
 
 
 

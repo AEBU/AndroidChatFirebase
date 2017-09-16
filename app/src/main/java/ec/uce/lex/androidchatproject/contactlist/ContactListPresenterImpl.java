@@ -2,6 +2,8 @@ package ec.uce.lex.androidchatproject.contactlist;
 
 import android.util.EventLogTags;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import ec.uce.lex.androidchatproject.contactlist.events.ContactListEvent;
 import ec.uce.lex.androidchatproject.contactlist.ui.ContactListView;
 import ec.uce.lex.androidchatproject.entities.User;
@@ -69,6 +71,7 @@ public class ContactListPresenterImpl implements ContactListPresenter{
     }
 
     @Override
+    @Subscribe
     public void onEventMainThread(ContactListEvent event) {
         User user = event.getUser();
         switch (event.getEventType()){
