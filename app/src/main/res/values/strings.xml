@@ -21,5 +21,8 @@
     <string name="contactlist.menu.action.signoff">Cerrar sesión</string>
     <string name="contactlist.title">Contactos</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

@@ -1015,7 +1015,13 @@ Pruebas y Repositorio, Video 10
 
 
 
+Para ADD CONTACT
+        AddContact layout ViDEO1
 
+            Creamos Fragment, AddContactFragment con su layout
+            y dentro de layout creamos
+            un EditText, que es el email
+            un ProgressBar, ttien visibilidad gone y la idea de este es que cuandoestoy haciendo el proceso de agregar el contacto, me lova a mostrar y luego se va a cerrar y va a decir si se pudo o no se pudo agregar el contacto
 
 
 
