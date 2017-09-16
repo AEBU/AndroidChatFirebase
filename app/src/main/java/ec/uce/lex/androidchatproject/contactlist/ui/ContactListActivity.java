@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ec.uce.lex.androidchatproject.R;
+import ec.uce.lex.androidchatproject.addcontact.ui.AddContactFragment;
 import ec.uce.lex.androidchatproject.contactlist.ContactListPresenter;
 import ec.uce.lex.androidchatproject.contactlist.ContactListPresenterImpl;
 import ec.uce.lex.androidchatproject.contactlist.ui.adapter.ContactListAdapter;
@@ -95,7 +96,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @OnClick(R.id.fab)
     public void addContact() {
-        Toast.makeText(this, "Click en Boton", Toast.LENGTH_SHORT).show();
+        new AddContactFragment().show(getSupportFragmentManager(),getString(R.string.addcontact_message_title));
     }
 
     @Override

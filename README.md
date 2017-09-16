@@ -1024,6 +1024,93 @@ Para ADD CONTACT
             un ProgressBar, ttien visibilidad gone y la idea de este es que cuandoestoy haciendo el proceso de agregar el contacto, me lova a mostrar y luego se va a cerrar y va a decir si se pudo o no se pudo agregar el contacto
 
 
+    AddContact Estructura MVP, DialogFragment
+        Para la Vista
+            AddContactView(interfaz)
+                Aqui exponemos los métodos de la vista
+                    showImput,un input que quiero mostrar u oculatr dependiendo que este pasando
+                    hideInput,
+
+                    showProgress(), progressBar que quiero mostrar o ocualtar
+                    hideProgress()
+
+                    contactAdded(), para reportar que se agrego el contacto
+                    contactNotAdded(), para reportar que hubo un error y no se pudo agregar el contacot
+
+        Para el presentador
+
+            AddContactPresenter(Interfaz)
+                Aquilos métodos del presentador
+                    onShow(), son mas o menos lo mismo del onCraete u onDestroy que hemos estadomanejando en las actividades, o fragmetes
+                    onDestroy(), por lo que usamos esto para mostrar y destruir el dialgo
+
+                    addContact(email), para agregar un contacto por meido del mail
+                    onEventMainThread(AddContactEvent evnet), para reportar que ocurrió algún evento y que tengo que hacer alguna acción
+
+        Una vez ya hecho el presentador procedemos a tener el Interactor
+            AddContactInteractor
+                En este únicamente conecto el presenaador con lo que va a ser la lógica de negocios
+                 void execute(String email)
+
+        Luego vamos a tener un Repository por lo que usamos
+            AddContactRepository
+                en donde tendremos
+                addContact(String emial),
+
+    Para ordenar tenemos evetnos , los evetnso que haran uso EventBus y en
+    ui, el Fragmento o Actividad, y la interfaz de la vista
+
+
+En el Fragemento AddContactFragment
+    hacemos que implmente la vista y hereda de DiaglogFragment
+
+        Dentro del onCreateView, creamos el Alert Diaglog, con getActivity como contexto, le configuro la vista asociada setView, y por ultimo la creo, la idea de sto separado es que
+            hacemos un AlertDialog.Builder builder=nwe AlerDialog.Builer(getActitivy())
+            builder.setView(vview(
+            AlertDialg diaglo=builder.cretae()
+        y retorno el diaglo
+
+        Cambiamos onCreaetView, por onCreateDialog y devuelve un DIalog
+            el View, lo obtenermos de la acitvidad, con getActivyt(),getLayoutInflater y container le mando null
+
+
+        Dentro de los métodos de la vista pues haremos
+
+            showInput(Vista)
+                editTextEmail.setVisitbity(View.Visible)
+
+            hideInput(Vista)
+                editTextEmail.setVisitbity(View.GOne)
+            showProgress(Vista
+                progressBar.setVisitbylye(View.Visible)
+            hideProgress(Vista)
+                prgressBar.setVisity(View.GONE)
+
+
+            oncontactAdded
+                Toast. con getActivty su string. siguiendo el patron, package.tipoString(mensaje).descripcion(title)
+
+            contactNotAdded
+                mando el texto vacio
+                y le mando el error con setError al editTxtEmail
+            onDestroyView
+                pilas para evitar el memorylick
+                    super.ondestroy(view)
+                    ButterKnife.unbind(this)
+
+        Para hacer la prueba vamos a la actividad
+            ContactlistActivity
+                addContact(), del metodo del boton creado
+                    new AddContactFragment(),show(getSupportFragmentManaget(),getAtring(R.string.addContactMessagetitle)
+                        llamo a show y le envio el supportFragmenteManager, y el titylo del string resource
+
+
+
+
+
+
+
+
 
 
 

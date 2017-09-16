@@ -21,8 +21,12 @@
     <string name="contactlist.menu.action.signoff">Cerrar sesión</string>
     <string name="contactlist.title">Contactos</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addcontact.message.title">Agregar contacto</string>
+    <string name="addcontact.message.add">Aceptar</string>
+    <string name="addcontact.message.cancel">Cancelar</string>
+    <string name="addcontact.message.contactadded">Contacto agregado exitosamente</string>
+    <string name="addcontact.error.message">Imposible agregar usuario no existente</string>
+
 
 
 </resources>
