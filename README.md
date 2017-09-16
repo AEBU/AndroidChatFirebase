@@ -817,6 +817,104 @@ Implementación del interactuador Video8
                 repository.removeContact
 
 
+Video 9 Repository
+
+            ContactListRepository
+                Espero tener un FierbaseHelper, que definí al inicio
+                ChildEvetnLIstener, contactEventLIstener
+
+                EN el constructor,
+                    me pongo el helper y FirebaseHelper.getInstance
+                EN signOff
+                    helper.signOff
+                En getCurrentUserEmail
+                    helper.getCurrentUserEmail
+                En removeContact
+                    pero necesitmo obtener el correo del usuarioactual
+                        String currenteUser=helper.getAuthUserEmail
+
+                        helper.getOneContactREference(currenteUser,emailRecibido).removeValue(), de tal forma que pueda borrar de mi listado de contactos a la persona quq qiuero borrar
+                            pero ademas quiero borrar a la otra persona de sus contactos
+                        helper.getOneContactReference(email,currentUserEmail).removeValue
+
+                En DestroyListener
+                    lo que requiere es que el listener actual sea nulo
+                    contactEventLIstener=null
+                 En SubscribeToContactListEvent
+                    contactEventLister
+
+                    Vamos a revisar que sea diferente de null, y luego,
+                    helper.getMyContactsREference.removeEvListener(contactEventListener)
+
+                    Pero primero vamoss a revisar si contactEventListener == null, y luego abajo hacemos la suscribcion
+                        if(contactEventLIstenre=null){
+                            contactEvnetListener=new ChilEventListner  //inicializo a este elemento de Firebase
+                                    //Recordemos que tenemos una estructura jerarquica en donde, al acceder a los elementos de los contactos voy a tener el usuario: diagonal / contactos y bajo este nodo voy a tener el usaurio "/" contactos y bajo este nodo el email y su estatus
+                                    //alexis@gmaill.com
+                                        //sistemas@galil
+                                            online
+                                onChildAdded, cuando se agrega
+                                    //definimos un email, que va a venir de la data de fierbase, (dataSnapshot), getKey, recoredemos que firebase no guarda los puntos y hago un replace para ponerlo en el formato en qel que espero mostrarlo
+                                    email=email.replace("_",".")
+                                    String email=dataSnapshot.getKey()
+                                    //definimos un online dataSnapshot,getValue(), este getValue tengo qeu castear a Boolean y luego puedo hacer un booleanValue
+                                    boolean online = ((Boolean)dataSnapshot.getValue()).booleanValue();
+                                    DEfino mi usuario,
+                                    User new User
+                                    user.setEmail(email)
+                                    user.setOnline(online)
+
+                                    Cuando ya termine de agregarlo puedo publicar un evento
+                                    y llamo a post(TIpode Evento, el Usuario(user)
+                                        private void handleContact(DataSnapshot dataSnapshot, int type) {
+                                                String email= dataSnapshot.getKey();
+                                                email = email.replace("_",".");
+                                                boolean online= ((Boolean) dataSnapshot.getValue()).booleanValue();
+                                                User user = new User();
+                                                user.setEmail(email);
+                                                user.setOnline(online);
+                                                post(type,user);
+                                        }
+
+
+                                Dentro de post, metodo privado
+                                    //creo este metdo con lo siguiente y pilas tener un eventBus, y en el constructor lalmar a eventBus=GreenRobotEventBus.getInstance
+                                    ContactListEvent event=new ContactListEvent
+                                    event.setEventType(type)
+                                    event.setUser(user)
+                                    eventBus.post(event)
+                                    //Con esto ya tengo listo cuando estoy agregando un child para la subscripcion
+
+                                onChildChanged, cuando se cambia, el estatus,
+                                    //para esto siempre voy hacer lo mismo, por lo que handleContact(), y necesito usar POO para hacerlo
+                                    handleContact(dataSnapshot,Tipo de Evento(ContactListEvent.onContactChanged))
+
+                                onChildRemoved, cuando se borra
+                                    handleContact(dataSnapshot,Tipo de Evento(ContactListEvent.onContactChanged))
+
+                                onChilMoved, cuando se mueve de una rama a otra)No la uso)
+                                onCancelled, cuando se cancela la requisicion(No la uso)
+                        }
+                        Creo el metodo handleContact(DataSnapshot dataSnapshot,int type)
+
+                            y pongo todo lo que use antes
+
+
+
+                 En UnSubscribeToContactListEvent
+                    Vamos a revisar que sea diferente de null, y luego,
+                        helper.getMyContactsREference.removeEvListener(contactEventListener)
+                        getMyContactrefrence porque estamos hablando del listado de contactos correspondientes a mi usuario, y le envio contactEventListener
+                 En changeConnectionStatus
+
+
+
+            En firebaseHelper
+
+
+
+
+
 
 
 
