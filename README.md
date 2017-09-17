@@ -1104,6 +1104,78 @@ En el Fragemento AddContactFragment
                     new AddContactFragment(),show(getSupportFragmentManaget(),getAtring(R.string.addContactMessagetitle)
                         llamo a show y le envio el supportFragmenteManager, y el titylo del string resource
 
+Video 3
+        AddContact Construir funcionalidad del diálogo
+
+            En AddCOntactFragment
+                En onCreateDialog
+                    Vamos a construir el buidler antes de hacer la vista que corresponde
+                    AlerDiaglog.BUilder builder=new ALertDialog.BUilder.(getActity())
+                        .setTitle(R.string.addcontactmessajetite)
+                        .setPositiveButton(R.string.addcontactmessgeadd,new DialogInterface
+
+                        .setNegativeButton(R.string.addcontactmessagecancel,new DialogInterface.OnClickListener(){
+                            @Override
+                                pubklioc void onClick(){
+
+                                }
+                        }
+
+                Ahora luego del
+                vista
+                binding
+                y le ponemos el
+            dialog.setOnShowListener(this) y con esto implmenetamos dialogInterface.OnShowListner
+
+            Con esto vamos a implementar a onShow
+            En onShow
+                Ciertas acciones asociadas, con esto la idea es que voy a poder controlar cuando el dialogo se cierra y cuando no, de tal forma que si ocurre un error no se cierre, la forma de usarlo es con onShowListener de lo contrario el dialogo se va a cerrar
+
+                Por el momento no se hace nada dentro de los botones que estan en el dialogo, el momento que presiono algún botón se me cierra la pantalla para evitar esto editaremos el método onSHow
+                    final AlerDialog, a partir del getDialog, casteandolo correctamente
+                    final AlertDialog dialog = (AlertDialog) getDialog();
+
+                Con esto vamos a Colocar un botón para positivo y uno para negativo y a cada uno de ellos le asociamos una acción
+                y lo manejamos como botones normales
+                            Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
+                            Button negativeButton = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+
+                        positiveButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    addContactPresenter.addContact(inputEmail.getText().toString());
+                                }
+                        });
+
+                        negativeButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dismiss();
+                                }
+                        });
+
+                    Como vimos en el positivo hacemos la acción, en este caso es el presentador, con lo que usamos el presentador.addContact y le mandamos el mail
+                    y si acaso no quiero agregar un contacto solo hago dismiss()
+
+                    Por último voy a validar que se mande a validar el onSHow del presntador, es decir que cuando el dialogo se muestra mando a llamar al onShow del presentador
+                    presenter.onShow(), aguera de la validación de los botones
+
+
+                En onDestroy(Fragment)
+                    llamamos al presentador.onDestroy()
+                    super.onDestroy();
+
+                AddContactFragment(){
+                    En este constructor, inicializamos el fragment,
+                    presenter=new AddContactPresenetrImpl(this), por lo que necesito la vista para usarla, y com parametro la vista
+
+                }
+
+
+                Con esto al Cancelar se destruye, y al aceptar no se cierra el dialogo
+                    En el evento del contacto agregado, agergamos un dismiss(), pero vemos que no se cierra, ya que esta en espera de el evento(contactAdded), y cuando se envie este evento se va a cerrar el dialogo.
+
+
 
 
 
