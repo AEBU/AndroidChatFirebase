@@ -1178,9 +1178,121 @@ Video 3
 
 
 
+Video4 AddContact Agregar Contacto.
+
+    En AddContactPresenterImpl
+        Ademas de la vista AddContactView, ncesitamos una instancia de EventBus eventBus, y una instancia de interactuador, AddContactInteractor, interactor,
+
+        En el consttructor
+            La añadimos con AddContactView, y además vamos a traer una instancia de Event Bus por greenRobot.getInstance(), y vamos a inicializar el interactuador,
+            eventBus=GreenRobot.getInstance()
+            interactor=new AddContactImpl();
+
+        En onShow
+            registramos al presentador como un elemento que esta escuchando
+            eventBus.register(this)
+        En onDestroy
+            deRegistrar al presentador y ademas volver la vista nula
+                view=null
+                eventBus.unregister(this()
+        En addContact
+            Este va a llamar al interactuador,y le manda el email pero además va a revisar si la vista existe, le decimos que esconda primero el input  y luego que muestre el progressBar, antes de llamar el interactuador
+                if(view!=null)
+                    view.hideInput
+                    view.showProgress
+
+                interactor.execute(email)
+
+        En onEventmainThread,
+            Al recibir el evento voy a tener un posible error pero no voy a detallar el error, por loq ue vamos a hacer es ir a AddContactEvent y voy a ver si tengo error o no
+            Revisamos si mi vista es diferente de null, (que la vista exista)
+            , con lo que ocualtamos el progressbar y mostrar los inpus,
+            Validamos si el evento incluye un error, entonces disparamos cierto evento de la vista de error con contactNotAdd, si no contactAddSuccess
+
+                if (addContactView != null) {
+                            addContactView.hideProgress();
+                            addContactView.showInput();
+
+                            if (event.isError()) {
+                                addContactView.contactNotAdded();
+                            } else {
+                                addContactView.contactAdded();
+                            }
+                    }
+            HASTA AQUÍ TENGO LISTO MI PRESENTADOR
+
+
+        AddContactRepositoryImpl
+            necesito una instancia de EventBus, otro de Firegbase Helper,
+
+            En Constructor()
+                this.evenyBus=FirebaseHelper.getInstance()
+                helper=GreenRobot.getInstance()
+
+            En addContact(String email)
+                en este como este email , incluye un punto y Firebase no guarda ".", lo vamos a reemplazar,
+                Obtengo la referencia del usuario, en base al email que tengo,
+                luego uso esta referncia y le añado un addListenerForSingleValueEvent(new ValueEventListner)..., esto es IMPORTANTE, ya que va a ser un solo evento el que me interesa, creo que como solo tenemos un valor que me dice que es error o no,m entocnes es un solo evento, REVISAR ESTA PARTE, con los otros EventMainThread
+
+                En onDataChanged,
+                    Voy a traer primero el usuario a partir del Snapshot, con lo que voy a permitir que Firebase me ayude y llene todos los campos necesarios,
+                      User user = snapshot.getValue(User.class);
+                    Con esto voy a ver si este usuario es diferente de null,  ¡(Existe), se hace algo y si no vamos a emitir un error, Si acaso existe vamos a revisar si el usuario esta online, y voy a obtener mi referencia de contactos, entonces con esto nos corresponde colocar los valores
+                    sobre myContactRefernce.child(key) que el key es el mail reemplazado los puntos, por _
+                    Luego le hacemos .setValue(user.inOnline()), dependiendo si el usuario se encuentra onLine o no, con esto estoy agregando a mi referncia de usuarios al otro usuario,
+
+
+                    Ahora me toca hacerlo a la inversa, porque lo estoy trabajando cruzado
+
+                    String currentUserKey-helper.getAuhtUserEmail()
+
+                    y reemplazo currentUserKey de los puntos por el guion bajo, con esto nos permite usar el email en múltiples lugares de Firebase
+
+                    Ahora necestio un ReverseContacReference a través de contact references con el email que recibi el email del usuario, por utlimo sobre este reverse, hacemos un chils
+                    y uso mi email le mando en setValue(User.ISONLINE), Le digo que yo estoy online y emito el evento que no tuve error
+                     diciendole postSucess(),
 
 
 
+
+                En onCancelled, podemos postear un evento como postError
+                En post(boolean error)
+                    aqui cramos un AddContactEvent event, y le mandamos el error como setErrorTrue.
+                    o podemos usar un solo metodo para ver si tiene o no error
+                    event new AddContactEvent
+                    event.setError(boleano)
+                    eventBus.post(event)
+
+
+
+
+
+
+
+
+
+
+    En AddContactEvent
+        necesito un bolleano que me dice si tengo error o no, y lo inicializamos como falso para que sea mucho mas facil cuando no haya error
+        y genero sus gettters y setters
+
+
+    En AddContactInteractorImpl,
+        implmentamos de AddContactInteractor, y creamos un AddContactRepository, y dentro de execute(addContact), llamamos al repositorio con el parámetro que tenemos
+
+        En el constructor por defecto instanciamos, y lo cramos por el momento lo dejamos vacío solo con los métodos por defecto
+
+            repository=new AddContactRepositoryImpl()
+
+
+
+
+
+Con esto podemos ver que si funciona al agregar un contacto , probar con un verdadero y con uno no valido,
+Dentro del nodo de contactos del usuario que acabo de agregar, aparezco yo como online y dentro de mi nodo el aparece como OFFLINE
+LA IDEA AQUÍ ES QUE TENGAN LOS DATOS CRUZADOS (BOOLEAN)
+
+NOTA.REVISAR QEU CUANDO INGRESEMOS EL MAIL, ESTE NO NOS DEJE INGRESAR DATOS VACÍOS
 
 
 
