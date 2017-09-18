@@ -1298,6 +1298,70 @@ NOTA.REVISAR QEU CUANDO INGRESEMOS EL MAIL, ESTE NO NOS DEJE INGRESAR DATOS VAC�
 
 
 
+CHAT CONFIGURACION
+Video 1 Chat, LYOUT
+
+        Chatlayout
+            Es importatne que como vamos a tener un toolbar esta actividad al igual que contactos darle un noActionBar, que es un estilo específico para este tema
+
+
+        En el layout
+            Cramos un coordinatorLayout, y dentro del toolbar vamos a colocar el contenido dque represntaba cada una de las filas del listado, lo agregamos
+
+
+Video2
+
+    MVP
+    Creamos la estructura MVP lo primero con la vista,
+
+    Vista
+        ChatView,
+            void onMessageReceived(chatMessage msg), pues tenemos el chat como un pojo, lo cramos en entidades
+
+    Presntador
+        ChatPresenter
+            Metodos para trabajar el registro y deregistro del listener del chat
+
+                void onPause, cuando la vista se detiene, ya sea porque se cambio de activdad,
+                void onResume, cuando la vista se muestra, solo cuando se muestra la vista se llama este métdo
+            Metodos para trabajar con EventBus
+                void onCreate
+                void onDestroy, para evitar el memory lick de la vista
+
+            Metdos de los mensages
+                void  sendMessage(Sting msh), que recibe el mensaje
+                void onEVentMainTHread(ChatEvent event), que recibe los eventosque se dan durante el chat
+
+            MEtodo del mensaje
+                Como todos los mensajes van a ir hacia un mismo destinatario
+                void setChatRecipient(String recicpient), para configurarlo en el momento en que configuro el presentador
+
+    Modelo
+        Luego necestio dos interactuadores, uno para la sesison, y otro para los mensajes
+
+            ChatSessionInteractor,
+                changeConnectionStatus (booblena(online)), me sirve para el momento que cambio de pantalla, para modifivar el estado de mi conexion
+
+            ChatInteractor
+                sendMessage(Sting msg),
+                setREcicpient(Sttign recipient), como tengo un solo tipo de recipient lo coloco de esta manera
+
+                Todos estos vinculados al listner
+                    subscribe
+                    unsubscribe
+                    destroyListener
+
+        Repositorio
+            Necesito implmentar métodos de ambos interactuadores,
+                Metodos de ChatSessionINteractor, que al final solo usa el helper
+                Metodos de ChatInteractor,
+
+    TEngo toda la estructura creada ahora toca crear las clases concretas (Class InterfaceImpl), hasta ahora he trabajado abstracciones(Interface SomeName)
+
+
+
+
+
 
 
 
