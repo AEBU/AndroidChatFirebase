@@ -1361,6 +1361,103 @@ Video2
 
 
 
+Video3, Vista Toolbar-
+    Creamos las instancias de ChatActivity, y usamos el generador de butterknife en la actividad,
+    Entonces una vez generado, esto voy a tener la data de algún lado(la actividad donde está el listado), entonces vamos a usar un intent para enviarlo y tenemos que enviar un par de contactos para ellos
+        EmailKey, OnlineKey
+
+    En ContactListActivity
+        En esta actividda tenemos el metodo
+
+        En onItemCLick
+            Vamos a declarar lo que necesito mandarle a mi toolbar de la otra actividad
+            Declaramos un intent nuevo a partir de la actividiad(thismChatActivity.class)
+            intent.putExtra. como key a Email y online , y obtenermos del usuario, el mail y el estado correspondiente
+            iniciamos la actividad a partir de este intent
+
+                    Intent intent = new Intent(this, ChatActivity.class);
+                    intent.putExtra(ChatActivity.EMAIL_KEY,user.getEmail());
+                    intent.putExtra(ChatActivity.ONLINE_KEY,user.isOnline());
+                    startActivity(intent);
+
+    En ChatActivity
+        Volvemos a chatActity, todavia no estamos haciendo nada pero nos interesa mostrar el contenido del toolbar,
+        Declaramos el ChatPresenter
+        Declaramos el ChatAdapter(recyclerView), este se agrega cuando se recibe un mensage,
+            Realizamos el chatPresenterImpl en el onCreate enviandole como parámetro la vista, (this) notemos que debe herdar de ChatView.
+
+        En onMessageReceived
+            Colocamos adapter.add(msg)
+            //podemos hacer que el recyclerview se mueva hasta la parte inferiro donde está este mensage, mandandole la posicion que necesito
+                adapter.add(msg);
+                recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        //Metodos del ciclo de vida de la actividad, con la l'ogica del presentador
+
+
+        En onCreate()
+            presenter.onCreaet()
+        En onResume()
+            presenter.onResume()
+        En onPause()
+            presneter.onPause()
+        En on Destroy()
+            presenter.onDestory()
+
+        Adicional a esto hacemos un método para el recyclerview, llamados desde onCreate
+            setupRecyclerView,
+            setupAdapter
+            setupToolbar
+        El orden qeu ebemos respetar, es el siguiente y va a tener que estar configurado antes del toolbar
+
+                    chatPresenter = new ChatPresenterImpl(this);
+                    chatPresenter.onCreate();
+
+                    setSupportActionBar(toolbar);
+                    Intent intent = getIntent();
+                    setToolbarData(intent);
+
+                    setupAdapter();
+                    setupRecyclerView();
+
+        En setupToolbar(Intent i),
+            Recibimos como parámetro getIntent()
+            Vamos a obtener los datos a partir del intent, necesito la data de algun lado y por eso decalramos en la actividad anterior
+
+                String recipient = i.getStringExtra(EMAIL_KEY);
+                chatPresenter.setChatRecipient(recipient);
+                boolean online = i.getBooleanExtra(ONLINE_KEY, false);
+                String status = online ? "online" : "offline";
+                int color = online ? Color.GREEN : Color.RED;
+
+                txtUser.setText(recipient);
+                txtStatus.setText(status);
+                txtStatus.setTextColor(color);
+
+            boolean online=i.getBooleanExtra(ONLINE_KEY,false), me retorna false si no lo recibo, por defecto es falso
+            en base a esto voy a llenar los datos del toolbar. notemos que es lo mismo de contactListAdapter, en onBindViewHolder. y creamos todo
+            sin holder,pero necesito un ImageLoaer que sea igual una instancia de GlideImageLoader, con su respectivo contexto
+
+        En sertupRecyclerView
+            Va a asignar al recyblerview un layoutManager, y este va a ser un linear LayoutMangetr qeu reciba la actividad como parámetro
+
+
+
+
+    En ChatAdapter
+        Creamos el adaptador que exitiende RecyclerView.Adapater<ChatAdapter.ViewHolder>, y viewHolder qu es una clase dentro de CHatAdapter, est'atica, debemos ponerla que herede de REcyclerView.ViewHolder y le creamos el constructor que me manda directamente
+
+
+
+
+
+
+
+        NOTEMOS QUE SIMPRE QUE SE CREA UN PRESNTERIMPL, RECIBEN COMO PARÁMETRO UNA VISTA
+
+        OTRA NOTA.
+            GlideImageLoader.getInstance()==== ImageLoader img=new GlideImageLoader(getAplicationContext);
+               Es una instancia a mano porque no tengo un singleton dentro de Glide
+
 
 
 

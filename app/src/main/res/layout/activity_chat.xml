@@ -61,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:tint="@android:color/black"
             android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_send"/>
+            android:src="@drawable/ic_send_chat"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

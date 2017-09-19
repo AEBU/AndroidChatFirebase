@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ec.uce.lex.androidchatproject.R;
 import ec.uce.lex.androidchatproject.addcontact.ui.AddContactFragment;
+import ec.uce.lex.androidchatproject.chat.ChatActivity;
 import ec.uce.lex.androidchatproject.contactlist.ContactListPresenter;
 import ec.uce.lex.androidchatproject.contactlist.ContactListPresenterImpl;
 import ec.uce.lex.androidchatproject.contactlist.ui.adapter.ContactListAdapter;
@@ -136,7 +137,10 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @Override
     public void onItemClick(User user) {
-
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra(ChatActivity.EMAIL_KEY,user.getEmail());
+        intent.putExtra(ChatActivity.ONLINE_KEY,user.isOnline());
+        startActivity(intent);
     }
 
     @Override

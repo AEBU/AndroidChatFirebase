@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject.chat;
+package ec.uce.lex.androidchatproject.chat.ui;
 
 import ec.uce.lex.androidchatproject.entities.ChatMessage;
 
