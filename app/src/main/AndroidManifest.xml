@@ -23,7 +23,7 @@
             android:name=".contactlist.ui.ContactListActivity"
             android:label="@string/contactlist.title"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
-        <activity android:name=".chat.ChatActivity"
+        <activity android:name=".chat.ui.ChatActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />
     </application>

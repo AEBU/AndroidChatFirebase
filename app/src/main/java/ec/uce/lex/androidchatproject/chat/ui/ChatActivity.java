@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject.chat;
+package ec.uce.lex.androidchatproject.chat.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,11 +13,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ec.uce.lex.androidchatproject.R;
+import ec.uce.lex.androidchatproject.chat.ChatPresenter;
+import ec.uce.lex.androidchatproject.chat.ChatPresenterImpl;
 import ec.uce.lex.androidchatproject.chat.ui.ChatView;
 import ec.uce.lex.androidchatproject.chat.ui.adapter.ChatAdapter;
 import ec.uce.lex.androidchatproject.domain.AvatarHelper;
@@ -75,7 +78,21 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
     }
 
     private void setupAdapter() {
-//        adapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
+        /*
+        ChatMessage msg1=new ChatMessage();
+        ChatMessage msg2=new ChatMessage();
+        ChatMessage msg3=new ChatMessage();
+
+        msg1.setMsg("Hola como estas");
+        msg2.setMsg("Aquí bien");
+        msg3.setMsg("Y como has pasado");
+
+        msg1.setSentByMe(false);
+        msg2.setSentByMe(false);
+        msg3.setSentByMe(true);
+        adapter= new ChatAdapter(this, Arrays.asList(new ChatMessage[]{msg1,msg2,msg3}));
+*/
+        adapter = new ChatAdapter(this,new ArrayList<ChatMessage>());
     }
 
     private void setToolbarData(Intent i) {
@@ -97,7 +114,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
 

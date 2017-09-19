@@ -1464,3 +1464,126 @@ Video3, Vista Toolbar-
 
 
 
+
+ChatAdapter video4
+
+    Comenzamos a definir el POJO chatMessage,
+        string msg, para el mensaje
+        string sender, para ver quien env'ia
+        boolean sendByMe, para ver si es enviado por mi o no
+
+    Constructor vacío, necesario para que FIerbase no nos de un problema a la hora de construir el mensaje, creamos los Gttery setters correspondientes
+
+    IMPORTANTE:
+    Como SendByMe no es algo que firebase va a guardar le vamos a colocar algo de JsonIgnore, esta notación es para que el parser(Jackson) lo ignore le digo qeu esa propiedad no me interesa
+        @JsonIgnoreproperties({"nombredelatributo"}), pero en las nuevas versinoes podemos hacer uso de Firebase que nos ayuda con este metodo de  @Exclude sobre el m;etodo que queremos excluir
+
+
+
+    en chat, package
+        Creamos los paquetes correspondietes
+            ui, actividad y la vista
+            adapters, adpatadores del recyclerView
+
+
+        En ChatAdapter
+            En este adapatador declaramos un contexto, este nos va servir para cambiar de color, eventualmente para obtener el color del tema
+            private context contex
+
+            Y un listado de ChatMessage
+                List;ChatMessage chatMessages;
+
+            En onCreateViewHolder
+                vamos a inflar, podemos ir a contactlist, y copiarlo pero el layout cambia a contentChat
+
+            En onBindViewHolder(*)
+                Obteine un chatMessage a partir del listado utilizando la posicion como parámtro,
+                y revisamos si ya se encuentra en el adaptador
+
+                ChatMessgae chateMessage=getpositio..
+
+                Extraemos solo el mensaje obtenido
+                    String msg=chatMessge.getMsg()
+
+                    holder.txtMessge.settText(msg),
+                Abhora el color puede ser el color primario o el color accent, y le defino la gravedad par que si el mensage no es envíado por mí entonces este se mande a la derecha
+                    int color= fetchColor(R.attr.colorPrimary)
+                    int gravity=Gravity.LEFT
+
+                preguntamos si el color es envidao por mi y cambiamos la llamada a color, y la gravedad
+                    color= fetchColor(R.attr.colorAccent)
+                    gravity=Gravity.RIGHT
+                Asignmaos el color que hemos obtenido al mensaje
+                    holder.txtMessage.setBackfroundColor(color)
+
+                Luego vamos a asignarle al textMessge la gravedad pero para eso necesitamos un Linearlayout.LayoutParams obtenido a partir del holder, castiado a LInearlayout.layoutParams
+
+                    LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)holder.txtMessage.getLayoutParams();
+                Le mandamos la gravedad y luego le asignamos de vuelta con los parametros definidos
+
+                    params.gravitty=gravity;
+                    holder.txtMessage.setlayoutParams(params)
+
+
+
+
+            En add
+                Veo si ya esta el mensaje en el listado y si no está lo agergo y lo aviso al adapatador
+                public void add(ChatMessage message) {
+                        if (!alreadyInAdapter(message)) {
+                            this.chatMessages.add(message);
+                            this.notifyDataSetChanged();
+                        }
+                }
+
+
+            En la clase de View Holder
+                Configuro el txtMessage, y nada mas, con Butterknife y con esto ya puedo hacer el Binding.(onBindViewHOlder)
+
+            en fetchColor(int color)
+                Este método obtiene el color a partir del identificador que se le envía
+
+
+    En ChatMessgae
+                Implementamos el equals con todos los parametros del pojo, para saber si es igual
+                voy a comparar el sender(en que envio), el mensaje, y además si es enviado por mi.
+
+                @Override
+                public boolean equals(Object obj) {
+                        boolean equal = false;
+                        if (obj instanceof ChatMessage){
+                            ChatMessage msg= (ChatMessage)obj;
+                            equal = this.sender.equals(msg.getSender())&& this.msg.equals(msg.getMsg())&&this.sentByMe == msg.sentByMe;
+
+                        }
+
+                        return equal;
+                }
+
+    En ChatActity
+
+            En setupaAdapter
+                Como ya definimos todo en el adaptador, creamos el adapter new ChatApdatper, y le envío un contexto con un listado nuevo vacío(Este se puede obtener desde una base de datos, o uno ya existente)
+            En setupRecyclerView
+                Le asigno al recycler view el adapatador que he creado
+
+                recyclerView.setAdapter(adapter)
+
+
+        Para pruebas creo dos mensajes dentro de setupAdapterm, mandandole todo lo que yo voy a definir
+
+            ChatMessage msg1=new ChatMessage()
+            ChatMessage msg2=new ChatMessage()
+
+            msg1.setMsg("Hola como estas")
+            msg2.setMsg("Aquí bien")
+
+            msg1.setSendByMe(true)
+            msg2.setSendByMe(false)
+
+            adapter= new ChatAdapter(this,Array.asList(new ChatMessage[]{msg1,mg2}
+
+
+
+
+

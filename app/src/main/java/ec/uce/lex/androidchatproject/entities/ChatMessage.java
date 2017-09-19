@@ -1,9 +1,12 @@
 package ec.uce.lex.androidchatproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by Alexis on 30/12/2016.
  */
 
+@JsonIgnoreProperties({"sentByMe"})
 public class ChatMessage {
 
     private String msg;
