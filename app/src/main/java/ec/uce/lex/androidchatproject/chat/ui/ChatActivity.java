@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ec.uce.lex.androidchatproject.R;
 import ec.uce.lex.androidchatproject.chat.ChatPresenter;
@@ -60,15 +61,12 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
 
-        presenter = new ChatPresenterImpl(this);
-        presenter.onCreate();
-
-        setSupportActionBar(toolbar);
-        Intent intent = getIntent();
-        setToolbarData(intent);
-
         setupAdapter();
         setupRecyclerView();
+
+        presenter = new ChatPresenterImpl(this);
+        presenter.onCreate();
+        setToolbarData(getIntent());
     }
 
     @Override
@@ -110,6 +108,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
         // Application app =  getApplication();
         ImageLoader imageLoader = new GlideImageLoader(getApplicationContext());
         imageLoader.load(imgAvatar, AvatarHelper.getAvatarUrl(recipient));
+        setSupportActionBar(toolbar);
     }
 
     private void setupRecyclerView() {
@@ -134,5 +133,11 @@ public class ChatActivity extends AppCompatActivity implements ChatView{
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
+    }
+
+    @OnClick(R.id.btnSendMessage)
+    public void sendMessage(){
+        presenter.sendMessage(editTxtMessage.getText().toString());
+        editTxtMessage.setText("");
     }
 }

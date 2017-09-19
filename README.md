@@ -1647,6 +1647,120 @@ ChatPresenetr y Event Video5
 
 
 
+ChatRepository Video6
+
+    Trabajando con los interactuadores, el repositorio deberia ser recibido en el constructor, pero para ver en que nos ayuda la inyecccion de independecias voy a hacer una instancia de este
+        En ChatSessionInteractorImpl
+            Necestimaos un repositorio y sobre este llaamos a los m;etodos con los que recibo
+            en este caso en connectionStatus solo mandamos el metodo que tiene el repositorio. y su metodo cambiandole la sesion
+
+            En el COnstructor, como vismo anteriormente
+                Igualamos el repositorio a CHatRepositroyImpl(), que es el que dar'a la logica que necesitamos
+            En ChangeBonnextionStatus
+                Solo llamarmos al repository.onChangeConnection status mandandoel el boleano
+
+        En ChatInteractorImpl
+            Lo mismo que hicimos en la anterior, con ChatRepository
+             EN el constructor, creamos la instancia del repositrio que hemos construido(notemso que lalmaamos al mismo)
+
+            Llamamos a los metodos del repositorio que ya hemos definido con repository.nombreMetodo
+            EN sendMessage
+            En SetREcipient
+            En SubsCribe
+            En unSubrbe
+            EN DestroyListener
+
+
+        En ChatRepositoryImpl
+            Aqui es donde se genra la logica,de tal manera que si cambian las liberria no se no shagan tan engorrosas los cambios
+
+            Aqui vamos a tener un String de quien lo recibe(recipient) un FIrebaseHelper, y un CHildEventLIstner
+            y tambien un EventBus Para enviar los eventos, y en el constructor enviamos algunos de estos
+
+            En el constructor iniclizamos todos, pero sin recibir ninguno, como ya hemos venido haciendolo
+
+                private String receiver;
+                private FirebaseHelper helper;
+                private ChildEventListener chatEventListener;
+
+                public ChatRepositoryImpl(){
+                    helper = FirebaseHelper.getInstance();
+                    eventBus_GreenRobotEventBus.getInstance()
+                }
+
+            En setREcipient
+                solo inicializamos el mail que hemos recibido con el que estamos reciendo, como un constructor mas o menos
+
+            En ChangeConnectionStatus
+                llamo solo al helper para que se encargue de esto que estamos haciendo
+                helper.changeUserConnectionStatus(online)
+            En estroyLIstener
+                vuelvo nulo el eventListener
+                chatEventLIstner=null
+
+            En sendMessage
+                lo que vamos ahcer es tomar el mail que est'a autenticado con helper.getAuthUserEmail
+                luego Creamos un ChatMessageNuevo y mando como sender(el mailAutenticado), y el mensaje con el par'ametro que he recibido
+                LUego tenemos un areferencia de firebase a traves del helper,,la referencia es de quien lo va a recibir*(recierver/recipient),  es importante recordar que va a obtener el correo del usuario autenticado  y el parametro que recibe para construirlo
+                Luego chstaRefernce.push para que me genere un identificador firebase, y setvalue ChatMessage
+
+                        String keySender = helper.getAuthUserEmail().replace(".","_");
+                        ChatMessage chatMessage = new ChatMessage(keySender, msg);
+                        DatabaseReference chatsReference = helper.getChatsReference(receiver);
+                        chatsReference.push().setValue(chatMessage);
+
+            En unSubsribe
+                Valido si el istener es difreten de null hacemos la desubscripcion
+                obtenemos todas las referencias del chat para el recipient(receiver), el que recibe, y remove eventListener y le envio el listner
+                    if (chatEventListener != null) {
+                            helper.getChatsReference(receiver).removeEventListener(chatEventListener);
+                    }
+
+            En SUbscribe
+                De la misma forma lo hago para suscribirme, si acaso este chatEventListener es nulo entonces hago toda la logica para hacer este lintener
+                    chatEventLitener=new ChatEventLisnter(){
+                        Implmentamos los metodos pero por el meomemtno solo me interesa onCHildAddes, notemos qeu esta interfaz es de Fireabase
+                        Por el momento me interesa cuadno un chat es enviado o se podira decir que onChildAdded
+                            vamos a constuir un mensaje nuevo a partir del dataSnapshot.getValue y el Poojo del CHatMessage
+                            Luego voy a verificar quien lo envia, a paritr del chatMessage, (obtengo el sender)
+
+                            Para ver si yo fui el que envio el mensaje Obtengo el sender, y veo si este sender es igual al usuario actual autenticado entonces lo va a volver verdadero si no lo hace falso
+
+                            ChatMessage.setSentByMy
+
+                            Por utlimo voy a publicar un evento, entonces creamos un chatEvent nuevo, y todo lo que va a llevar es el mensaje
+                            chatEvent.setMessage(chatEvent el mensaje que acabo de construir, y por ultimo posteo el evento
+                            y para poder envair a EventBus, como el que va a estar escuchado, hago que se envia el mensaje constuido y luego los demas lo implmenten por ultimo posteamos el evento
+
+                                            ChatMessage chatMessage = dataSnapshot.getValue(ChatMessage.class);
+                                            String msgSender = chatMessage.getSender();
+                                            msgSender = msgSender.replace("_",".");
+
+                                            String currentUserEmail = helper.getAuthUserEmail();
+                                            chatMessage.setSentByMe(msgSender.equals(currentUserEmail));
+
+                                            ChatEvent chatEvent = new ChatEvent(chatMessage);
+                                            eventBus.post(chatEvent);
+
+    En ChatActivity
+                LUego de qeu haga un click en sendMessage
+                    presenter.sendMessage*(editText.getString.tostrint)
+                    y le enviamos vacio para que quede vacion luego d que envaimos un mensaje
+
+                En setuptollbar
+                    setSupportActionBar(toolbar)
+
+
+                    }
+                Luego hago lo de anadir el chatREference (luego del if)
+                    helper.getChatsReference(receiver).addCHildEventlistener(chatEventListener);
+
+
+    Cuando envio un mensaje podemos ver que tenemso un guion bajo ,,separando con ___ ordenado alfabeticamente, teine el mensaje y quien lo envia, cada vez que hay un mensaje nuevo se agregan nodso con informacion de quien los envia y quien los recibe
+
+
+
+
 
 
 

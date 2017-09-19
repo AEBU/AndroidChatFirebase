@@ -17,6 +17,11 @@ public class ChatMessage {
     public ChatMessage() {
     }
 
+    public ChatMessage(String sender, String msg) {
+        this.sender = sender;
+        this.msg = msg;
+    }
+
     public String getMsg() {
         return msg;
     }
