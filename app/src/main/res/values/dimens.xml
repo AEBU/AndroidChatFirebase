@@ -4,4 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="contact_image_size">48dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!--Margen para los mensajes -->
+    <dimen name="content_message">10dp</dimen>
+
 </resources>

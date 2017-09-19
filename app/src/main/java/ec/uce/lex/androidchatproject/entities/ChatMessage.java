@@ -1,16 +1,16 @@
 package ec.uce.lex.androidchatproject.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.firebase.database.Exclude;
 
 /**
  * Created by Alexis on 30/12/2016.
  */
 
-@JsonIgnoreProperties({"sentByMe"})
 public class ChatMessage {
 
     private String msg;
     private String sender;
+    @Exclude
     private boolean sentByMe;
 
 

@@ -37,5 +37,4 @@ ext{
     eventBusVersion='3.0.0'
     glideVersion='4.0.0'
 
-    jacksonLibrary='2.4.1'
 }

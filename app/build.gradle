@@ -42,9 +42,6 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     compile "org.greenrobot:eventbus:$rootProject.ext.eventBusVersion"
 
-    compile "com.fasterxml.jackson.core:jackson-core:$rootProject.ext.jacksonLibrary"
-    compile "com.fasterxml.jackson.core:jackson-annotations:$rootProject.ext.jacksonLibrary"
-    compile "com.fasterxml.jackson.core:jackson-databind:$rootProject.ext.jacksonLibrary"
 
 
     annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.ext.glideVersion"

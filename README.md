@@ -1587,3 +1587,70 @@ ChatAdapter video4
 
 
 
+ChatPresenetr y Event Video5
+
+        En ChatPresenterImpl
+            Vamos a trabajar en la implementacion del presentador, agregamos, el listener de ventso(EventBus), la vista, y los Interactuadores y procedmeos a inicializarlos de la manera que hemos definido como clases,
+            EventBus eventBus;
+            ChatView chatView;
+            ChatInteractor chatInteractor;
+            ChatSessionInteractor chatSessionInteractor;
+
+                public ChatPresenterImpl(ChatView chatView){
+                    this.chatView = chatView;
+                    this.eventBus = GreenRobotEventBus.getInstance();
+
+                    this.chatInteractor = new ChatInteractorImpl();
+                    this.chatSessionInteractor = new ChatSessionInteractorImpl();
+                }
+
+
+            En onPause
+                Al chat Interactor le va  adecir qeu se desuscriba y va a cambiar el estattus a trav'es dek sesion interactor con la constante de User.Online
+                    chatInteractor.unSubscribeForChatUpates();
+                    chatSessionInteractor.changeConnectionStatus(User.OFFLINE);
+            En onResume
+                Lo opuesto a onPause,
+                    chatInteractor.subscribeForChatUpates();
+                    chatSessionInteractor.changeConnectionStatus(User.ONLINE);
+            en onCreate
+                asignamos a event bus un registro del presentador, para que pueda escuchar por eventos
+                    eventBus.register(this);
+            en ONdestroy
+                lo opuesto a onCrete, pero ademas destruimos al listener dentro del interactuador, y por ultimo hacemos nula la vista
+                    eventBus.unregister(this);
+                    chatInteractor.destroyChatListener();
+                    chatView = null;
+
+            en SetChatRecipient
+                es parte del chatInteractor,
+                        this.chatInteractor.setRecipient(recipient);
+
+            en sendMessage
+                es parte del CHatIntercctor
+                        chatInteractor.sendMessage(msg);
+
+
+            en onEventMain thread
+                Pilas aqui tenemso que colocar que nos suscribimos y revisamos si la vista es difirente de null, y del evento vamos a recibir un CHatMessage, y vamos a decir view.onMessageReceived(event.getMessage(, como vemos es cuando tenenmos un nuevo mensaje se agregue al chat, es
+                decir que en la vista le estamos dando a conocer que tenemos un mensaje y recibimos un mensaje porque un mesaje se va a mostrar, por eso no usamos valores que me dicen si tuve o no un error
+
+                 @Override
+                @Subscribe
+                public void onEventMainThread(ChatEvent event) {
+                    if (chatView != null) {
+                            ChatMessage msg = event.getMessage();
+                            chatView.onMessageReceived(msg);
+                        }
+                }
+
+
+
+
+
+
+
+
+
+
+
