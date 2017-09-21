@@ -6,6 +6,7 @@ import org.greenrobot.eventbus.Subscribe;
 import ec.uce.lex.androidchatproject.lib.EventBus;
 import ec.uce.lex.androidchatproject.lib.GreenRobotEventBus;
 import ec.uce.lex.androidchatproject.login.event.LoginEvent;
+import ec.uce.lex.androidchatproject.login.ui.LoginView;
 
 /**
  * Login, esta clase tiene una vista LoginVIew

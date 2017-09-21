@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject.login;
+package ec.uce.lex.androidchatproject.login.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ec.uce.lex.androidchatproject.R;
 import ec.uce.lex.androidchatproject.contactlist.ui.ContactListActivity;
+import ec.uce.lex.androidchatproject.login.LoginPresenter;
+import ec.uce.lex.androidchatproject.login.LoginPresenterImpl;
+import ec.uce.lex.androidchatproject.signup.SignUpView;
+import ec.uce.lex.androidchatproject.signup.ui.SignUpActvity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
@@ -79,8 +83,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     @OnClick(R.id.btn_Signup)
     public void handleSignUp() {
-        loginPresenter.registerNewUser(inputEmail.getText().toString(),
-                inputPassword.getText().toString());
+//        loginPresenter.registerNewUser(inputEmail.getText().toString(),
+//                inputPassword.getText().toString());
+        startActivity(new Intent(this, SignUpActvity.class));
+
     }
 
 

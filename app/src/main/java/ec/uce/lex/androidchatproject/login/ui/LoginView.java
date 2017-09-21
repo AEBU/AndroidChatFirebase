@@ -1,4 +1,4 @@
-package ec.uce.lex.androidchatproject.login;
+package ec.uce.lex.androidchatproject.login.ui;
 
 /**
  * Métdoos a utilizar dentro de la vista

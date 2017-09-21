@@ -1762,6 +1762,27 @@ ChatRepository Video6
 
 
 
+EJERCICIOS
+
+    Ej1, Crear la pantalla de SingUp en otra actividad poniendo todo lo que conlleva como MVP y Clean
+
+        Layout
+            Dentro de strings.xml
+                Cambiamos valores  tanto para crear cuenta como para usarlo
+                tambien el titulo de la aplicación
+
+        En package singup
+            ui
+                SignUpActivity
+                    el layout de este va a ser muy similar al de login,Creamos el titulo para que se mande el titulo a esta activity
+                        setTitle(R.string....)
+
+
+        En LoginActivity,
+            handleSingUp cramos que nos lleve a la pantalla de singUpActivity
+
+
+
 
 
 

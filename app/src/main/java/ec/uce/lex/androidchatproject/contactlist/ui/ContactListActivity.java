@@ -25,7 +25,7 @@ import ec.uce.lex.androidchatproject.contactlist.ui.adapter.OnItemClickListener;
 import ec.uce.lex.androidchatproject.lib.GlideImageLoader;
 import ec.uce.lex.androidchatproject.entities.User;
 import ec.uce.lex.androidchatproject.lib.ImageLoader;
-import ec.uce.lex.androidchatproject.login.LoginActivity;
+import ec.uce.lex.androidchatproject.login.ui.LoginActivity;
 
 public class ContactListActivity extends AppCompatActivity implements ContactListView, OnItemClickListener {
 
