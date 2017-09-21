@@ -1782,6 +1782,36 @@ EJERCICIOS
             handleSingUp cramos que nos lleve a la pantalla de singUpActivity
 
 
+    En Ejerc2
+        Implementacion, para esto la funcionalidad no queremos que este en la pantalla de login sino en la pantalla de signup activity, pero vamos a reutlizar codigo, (LoginView), con esto ya tenemos la funcionalidad hecha
+
+            EN SignUpActivity, implementamos LoginView, y como su layout es muy parecido pues solo lo reutilizamos
+                Tomamos el LogiNPresenter porque necestiamos comunicarnos con un presentador,
+                lo de checkForAuthenticatedUser(), quitar{iamos porque esto no vamos hacer en crear cuenta si no solo en la patanlla de LOGIN
+
+                En onDestroy
+                    toda la funcionalidad,
+                En enable,disable Inputs,
+                    va todo igual
+                En show,hideProgress
+                    va todo igual
+                En handleSignUp,
+                    vamos a poner lo del presentador como registrar nuevo usuario,
+                En handleSignIn
+                    En la pantalla de SignUp no queremos que esto se ejecute por nada del mundo y si llegara a llamarse pues hacemos una excepcion, por lo que separamos las funcionalidades
+                    throw new UnsupportedOperationException("Operation is not valid in SignUpActivity"), con esto nos aseguramos que si es llamado, se genere la EXCEPCION, y el desarrollador dtermine el porque se llama
+
+                En navigateTomainScreen
+                    va todo igual
+                EN loginError,
+                    otra exepcion
+                En newUserSuccess
+                    Esto un snackbar, dentro de activity, pero en ACTIVITYLOGIN, esta operacion no es valida
+
+                En new UserErrro
+                    Esto va igaul pero en ACTIVITY LOGIN, ya va la exepcion ya que no es bueno ,que se muestre el error de signup en el login
+                    Tomar en cuenta el @Click dentro del boton, y pilas con la de butterknife
+
 
 
 
