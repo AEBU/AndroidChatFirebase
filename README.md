@@ -1812,6 +1812,43 @@ EJERCICIOS
                     Esto va igaul pero en ACTIVITY LOGIN, ya va la exepcion ya que no es bueno ,que se muestre el error de signup en el login
                     Tomar en cuenta el @Click dentro del boton, y pilas con la de butterknife
 
+CoreccionError,(pero este no se da en nuestro ejemplo debe ser que EventBus ya controla esto)
+
+
+Debemos fijarnos y tomar en cuenta que cuando un signUp termina y se ejecuta correctamente env{ia un evento, el cual esta dentro de PresenterImpl
+onEventMainThread, Entonces cuando nos indica que un SIgnUPha sido exitoso manda a llamar al metodo onSIgnUpSUccess,.. dentro de onEventMainThread,
+este metodo hace es lalamr a la parte de la vista y registra newUserSUccess, para la pantalla de signUp es correcto pero para la del login no lo es
+
+Entonces lo que esta sucediendo es que como estamos usando el mismo presentador en ambas pantallas, recordemos que nosotros lo estasmos registrando y deregistrando EvetnBus en el método onCreate y onDestroy respectivamente
+Entocnes al cambiar la pantalla la pantalla del login aún no ha pasado por el método onDestroy, por lo que no se hace otra referencia a EventBus, es la misma referencia, debemos asegurarnos que se va a deregistrar evetnBus al cambiar de pantalla
+para hacer esto se sobreescribeO onPause, y onResume,
+por lo que primero editamos la pantalla que habíamos creado como lo es LgoinPresenter
+los implmentamos y en LoginPresenterImpl. vamos y creamos en onResume, evnetBus.register,
+y en onPause, la deregistramos, y on Create se queda quieto,
+en nuestro activityLoginAcxtity, tambien toca cambiar para que funcione, sobreescribiendo el metodo onPuase,
+lo que pasa es que se esta registrando y deregistrando el metodo onCreate y onDestroy, correspondienteente,y como al poner la pantalla de login, aun no se destuye pues no se desuscribe y tenemos el evento anterior en accion
+Debemos asegurarnos que se va a drergistrar EventBus, en onPause que es cuando se cambia de pantalla
+en LoginPresenter, llamamros al metodo onResume y onPause,
+
+en LoginPresnterIMpl, implmententamos, y en onCrete, ponemos en onResume, y onDestroy ponemos deregistrar
+dejando al
+    onCreate en blanco,
+    onDestroy solo vista nula
+    onResume eventBUs se registra
+    onPause, se deregistra eventBUs
+
+Y para que nos funcione todo debemos cambiar el método de nuestra actividad,
+    En onPause,modemos loq ue teniamos en enOnDestoy,
+        loginPresnetr.onPause(9
+    En onResume movemoslo que teniamos en create a OnCreate, lo que es loginPresnter.OnCreate y loginPresnter.checkAuth
+    Cambiando loginPresner.onResume, y no al metodo loginPresner.onCrete
+
+Copiamos los dos anteriores en SignUp Activity
+    REcoredamos que el usuario no se revisa si esta autenticado en esta parte,
+
+
+
+
 
 
 
