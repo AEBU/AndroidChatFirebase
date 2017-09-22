@@ -1850,6 +1850,48 @@ Copiamos los dos anteriores en SignUp Activity
 
 
 
+EJERCICIO 3
+    Mejorar la experiencia del usuario en la navegación, si entramos en la patanlla de crear cuenta al regresar a la pantalla de login, no funciona porque se cierra directo y ademas no tenemos una flecha qeu nos diga para regresar al anterior actividad(LoginActivity)
+    Para corregir esto vamos a remover lo que habíamos colocado como que la actividad no se guarde en el historial, dentor del MANIFEST
+        android:noHIstory="true"            la eliminamos
+
+    Agregamos cierta metadata en la actividad de SignUp, para que sea como un arbol qu quede armado, en donde se le indica que la pantalla deSignUp es como hija de l pantalla de login
+    Para hacer esto dentro de SIgnUpActivity pnoemso
+        meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android.value=".loging.ui.LoginActivity"
+        meta-data
+
+    Como vemos tenemos en la pantalla de crear cuenta, la flecha de regresar, esto es porque estamo utilizando el tema por defecto y este tema sabe cuando una patnalla es hija de otra debe colocar
+    la flecha en la parte delantera
+
+
+    PERO CON ESTO nos genera un problema que ya habíamos resuelto de que no se quedaba en el historial el login,pero ahora intenta regresar a la pantalla de login,
+    y en login verifica que el usuario ya esta logueado, por lo que me deja en un ciclo en lamisma actividad
+
+        Para hacer esto vamos a usar Intents, de flags, para que se borren al cambiar de ptanllas
+         en el intent, de navigateToMainScreen,
+            Intent intent=new Intent(this,ContactListActivity.this)
+            intent.setFlags(NewTask|ClearTask)
+
+            LO MIMSMO DESDE SIGNUP
+
+          Con esto logramos que el usuario al cambiar de la pantalla de login hacia la pantalla principal, la de Login o la de SIgnUp activity, se borren del hisotrial para que el usuarios al hacer back pueda salir de la aplicación
+
+
+    Ahora dentor de contactList, no tenemos la flecha que nos dice para regresar a la activivdad de COntactListActivity, por lo que procedemos a ponerla, LO QUE sucede es que como le modificamos el tema en el Manifest, con NoActionBar es decir
+    no esta utilizando el actionBar de defecto de Androdi , loq ue hace es agregar un toolbar que nosotros modificamos con el fin de modificar el layout del toolbar,
+    para qye este toolbar nos muestre la flecha debemos agregarle la siguiente linea y lo hacemos desde el método onCreate ,
+
+    en la activity CHATACTIVITY
+
+        ...
+        setupToolbar(getIntent)
+        getSupportActionBar().setDisplayHomeAdUpEnabled(true)
+
+    Luego agregamos la metadata dentro de la actividad (ChatActivity) en el Manifest, la cual es ContactListActivity
+
+        Con esto ya podemos regresar a la pantalla anterior
 
 
 
